@@ -100,7 +100,17 @@ class Keithley2001:
         time.sleep(8)
         return self.get_reading_from_raw(self.get_reading_raw())
 
-    # micc
+    # gpio interface
+
+    def gpio_read_input(self):
+        cmd = ":sens2:ttl:data?"
+        return self.inst.query(cmd)
+
+    def gpio_write_output(self, output, state):
+        cmd = ":SOUR:TTL{} {}".format(int(output), int(state))
+        self.inst.write(cmd)
+
+    # misc
 
     def displaytext(self, text, row):
         self.inst.write(":DISP:WIND{}:TEXT:DATA '{}'".format(str(row), text))
