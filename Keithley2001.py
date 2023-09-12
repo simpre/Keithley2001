@@ -8,7 +8,7 @@ inst = None
 class Keithley2001:
     inst = None
 
-    measurementModes = ['VOLT:AC', 'VOLT:DC', 'RES', 'FRES', 'CURR:AC', 'CURR:DC', 'FREQ', 'TEMP']
+    measurementFunction = ['VOLT:AC', 'VOLT:DC', 'RES', 'FRES', 'CURR:AC', 'CURR:DC', 'FREQ', 'TEMP']
     triggerSources = ['HOLD', 'IMM','TIM', 'MAN', 'BUS', 'TLIN', 'EXT']
 
     # general
@@ -41,9 +41,13 @@ class Keithley2001:
             cmd = ":TRIG:SOUR {}".format(source)
             # cmd = ":trig:sour ext\n"
             self.inst.write(cmd)
-            print(cmd)
 
-
+    def set_measurement_function(self, function):
+        if function not in self.measurementFunction:
+            print("Error, measurement funciton is not valid")
+        else:
+            cmd = f":func '{function}'"
+            self.inst.write(cmd)
 
 
 
@@ -59,6 +63,8 @@ class Keithley2001:
         time.sleep(1)
 
     # get readings
+    def get_reading(self):
+        return self.get_reading_from_raw(self.get_reading_raw())
 
     def get_fresh(self):
         """
