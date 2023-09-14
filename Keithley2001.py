@@ -49,6 +49,21 @@ class Keithley2001:
             cmd = f":func '{function}'"
             self.inst.write(cmd)
 
+    def set_reference(self, function, enabled , value = None ):
+        """
+        enables or disables the reference function.
+        Attention: Does not change or measure the reference value. This needs to be done manually
+        :param function:
+        :param enabled:
+        :param value: Value or MIN , DEF (=0 ) or MAX , range depending on function, see in manual 4.19.9
+        :return:
+        """
+        cmd = f":{function}:ref:stat {int(enabled)}"
+        self.inst.write(cmd)
+        if value is not None:
+            cmd = f":{function}:ref {value}"
+            self.inst.write(cmd)
+
 
 
     def trigger_measurement(self):
