@@ -83,8 +83,9 @@ class Keithley2001:
         """
         return (int(self.inst.query(":stat:meas:event?")) & (1 << 5))
 
+
     def get_reading_from_raw(self, text):
-        exp = "([0-9]*[.]*[0-9]*E[+-][0-9]*)"
+        exp = "([+-]?[0-9]+[.]*[0-9]*E[+-][0-9]*)"
         match = re.search(exp, text)
         # If a match is found, extract the captured group
         if match:
